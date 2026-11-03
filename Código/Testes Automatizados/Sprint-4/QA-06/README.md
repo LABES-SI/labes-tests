@@ -1,41 +1,49 @@
-# QA06 — Contrato e composição detalhada (Sprint 4)
+# QA06 — Testes automatizados de índice, cobertura e composição municipal (BE10)
 
-## Situação desta preparação
+## Resultado atual
 
-Este diretório contém a preparação independente de QA06: matriz de cenários, fixtures sintéticas e testes de domínio que já podem ser executados contra a função existente `calcular_indice_infraestrutura`.
+**33 testes aprovados na execução local informada pela QA em 02/11/2026.** A duração, o código de saída e o XML JUnit da execução ainda precisam ser registrados a partir do terminal, caso não tenham sido salvos.
 
-**Importante:** o ZIP analisado da branch `feature/SIE-54-sprint4-infrastructure-composition` corresponde ao snapshot identificado pelo comentário do arquivo ZIP como `a41b64be4e5d2db76a573125ac8b94127537cea5`. Nesse snapshot não foram encontrados endpoint, schema Pydantic ou serviço específicos para a composição detalhada (BE09/BE10). Portanto, ainda não existem testes executáveis do contrato HTTP de composição, dos metadados nem do alerta da composição. Esses testes devem ser adicionados quando o contrato e a implementação correspondentes estiverem disponíveis.
+| Arquivo | Casos coletados | Camada |
+|---|---:|---|
+| `tests/test_qa06_indice_preparatorio.py` | 11 | Cálculo individual e cenários sintéticos de cobertura |
+| `tests/test_qa06_be10_agregacao_municipal.py` | 16 | Domínio: agregação municipal por indicador |
+| `tests/test_qa06_be10_servico_agregacao.py` | 6 | Serviço: orquestração e município histórico com repositório falso |
+| **Total** | **33** | |
 
-## Escopo preparado
+## Dependências
 
-- valores `1`, `0` e `NULL`;
-- contagem de presentes, válidos e sem dados;
-- percentual do índice e cobertura;
-- cálculo parcial sem bloqueio por cobertura mínima;
-- valores inválidos;
-- composição municipal por indicador, com dados sintéticos e resultados esperados;
-- plano para metadados, alerta de baixa cobertura, escola não encontrada e escola existente sem histórico.
+A variável `LABES_API_ROOT` deve apontar para uma cópia do `labes-api` que contenha:
 
-## O que não deve ser declarado como concluído ainda
+- `app/domain/infraestrutura_agregacao_municipal.py`
+- `app/services/infraestrutura_agregacao_municipal.py`
 
-- validação do schema HTTP de composição;
-- validação dos nomes/tipos exatos dos campos de resposta;
-- validação do alerta de baixa cobertura no payload;
-- validação de 404 versus 200 sem histórico na nova rota de composição;
-- teste integrado com o endpoint BE09/BE10.
+Esses módulos foram introduzidos pela BE10 (PR #15). Não copiar o backend para dentro do repositório `labes-tests`.
 
-## Execução dos testes de domínio preparatórios
+## O que a suíte valida
 
-Defina `LABES_API_ROOT` para a pasta do backend que contém `pyproject.toml` e `app/` e execute, na raiz do repositório `labes-tests`:
+- Cálculo individual com valores `1`, `0` e `NULL`.
+- Índice sem denominador válido e cenários sintéticos de cobertura.
+- Contagens municipais de presentes, válidos, sem dados e escolas de referência.
+- Percentual de presença e cobertura por indicador, incluindo denominador zero.
+- Exclusão da escola-alvo da referência municipal.
+- Rejeição de chaves, identificadores e valores inválidos ou duplicados.
+- Uso do município histórico por ano e lacunas no período 2022–2025.
+- Distinção entre escola inexistente, sem histórico e histórico sem município.
 
-```powershell
-uv run --project "$env:LABES_API_ROOT" python -m pytest "Código\Testes Automatizados\Sprint-4\QA-06\tests" -v
-```
+## Limites atuais
 
-Esses testes exercitam apenas a função de domínio já existente. Eles não substituem os futuros testes de contrato e composição.
+Os 33 testes **não** validam ainda:
 
-## Dependências para completar QA06
+- A resposta HTTP completa do contrato v3 da BE09.
+- `composicao_escola` e todos os metadados v3 no payload.
+- `cobertura_indicadores_reduzida` e os avisos na resposta HTTP.
+- Os corpos reais dos erros HTTP `404`, `422`, `500` e `503` do contrato v3.
+- Integração com warehouse real, frontend ou fluxo ponta a ponta.
+- A amostra manual DAD06, que é responsabilidade da equipe de Dados.
 
-1. Contrato HTTP v3 completo (commit informado no planejamento: `f883ca2061ead757060a4fbf5dc0bae75d608742`).
-2. Implementação BE09/BE10 presente na branch atualizada.
-3. Confirmação da regra e do limiar do alerta de baixa cobertura, conciliando REQ-05, DAD-05 e o relatório de acompanhamento/DAD06.
+A cobertura municipal por indicador é informativa e não recebe automaticamente o alerta de 60%. Para a escola, o alerta é estritamente abaixo de 60% e não bloqueia o cálculo, conforme a especificação BE09.
+
+## Execução
+
+Veja `INSTRUCOES.md` na raiz do pacote recebido e `evidencias/README-evidencias-QA06.md` para o registro do resultado e a geração dos artefatos de execução.

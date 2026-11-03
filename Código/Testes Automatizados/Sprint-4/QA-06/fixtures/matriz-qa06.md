@@ -1,114 +1,65 @@
-# Matriz de cenários — QA06: contrato e composição detalhada
+# Matriz QA06 — índice preparatório, cobertura sintética e BE10
 
-## 1. Convenções e fonte de regra
+Esta matriz distingue três grupos de validação:
 
-- `1`: recurso presente (Sim).
-- `0`: recurso ausente (Não), mas resposta válida.
-- `NULL`: sem informação; não entra no denominador.
-- Contrato de referência: 17 indicadores do conjunto utilizado no MVP, sujeito à homologação semântica documentada.
-- Em cálculo escolar: `índice = 100 × presentes / válidos`, quando há ao menos um indicador válido.
-- `cobertura = 100 × válidos / 17`.
-- Para composição municipal por indicador: `percentual = 100 × escolas com valor 1 / escolas com valor 0 ou 1`.
-- `sem_dados = total de registros - válidos`.
+1. Testes preparatórios do índice individual e casos sintéticos DAD06, em `tests/test_qa06_indice_preparatorio.py`.
+2. Testes independentes de domínio BE10, em `tests/test_qa06_be10_agregacao_municipal.py`.
+3. Testes independentes de serviço BE10 com repositório falso, em `tests/test_qa06_be10_servico_agregacao.py`.
 
-Os nomes exatos dos campos HTTP de composição devem ser copiados do contrato v3/BE09-10 quando disponíveis; não inferir nomes a partir desta matriz.
+## A. Índice da escola e casos sintéticos pedidos por Dados/Backend
 
-## 2. Cenários de domínio já executáveis no snapshot analisado
+| ID | Entrada | Presentes | Válidos | Sem dados | Índice | Cobertura | Alerta conforme BE09 |
+|---|---|---:|---:|---:|---:|---:|---|
+| QA06-D01 | 7 Sim, 5 Não, 5 NULL (17 itens) | 7 | 12 | 5 | 58,33% | 70,59% | Não |
+| QA06-D02 | 17 NULL | 0 | 0 | 17 | NULL | 0% | Sem registro não classifica; registro com 17 nulos tem cobertura reduzida |
+| QA06-D03 | 5 Sim, 3 Não, 9 NULL (17 itens) | 5 | 8 | 9 | 62,50% | 47,06% | Sim, se campo BE09 integrado |
+| QA06-D08 | 2 Sim, 1 Não, 2 NULL (5 itens sintéticos) | 2 | 3 | 2 | 66,67% | 60% | Não; fronteira exata, operador estritamente menor |
+| QA06-D09 | 5 NULL (5 itens sintéticos) | 0 | 0 | 5 | NULL | 0% | Percentual NULL; não dividir por zero |
+| QA06-D10 | 1 Sim, 1 Não, 3 NULL (5 itens sintéticos) | 1 | 2 | 3 | 50% | 40% | Sim, se campo BE09 integrado |
+| QA06-D11 | 3 Sim, 1 Não, 1 NULL (5 itens sintéticos) | 3 | 4 | 1 | 75% | 80% | Não, se campo BE09 integrado |
 
-### QA06-D01 — Um indicador igual a 1
+**Limitação:** D08–D11 validam o cálculo da cobertura e o percentual na função de domínio. O teste não valida a presença/ausência real do campo `cobertura_indicadores_reduzida` na resposta HTTP, pois o serviço BE10 do patch ainda não publica a resposta BE09. O contrato BE09 define que o alerta aplica-se somente à cobertura da escola selecionada; cobertura municipal por indicador não recebe alerta automático.
 
-Entrada escolar: primeiro indicador `1`, demais 16 `NULL`.
+## B. Agregação municipal BE10 — domínio
 
-Esperado: presentes = 1; válidos = 1; sem dados = 16; total = 17; índice = 100%; cobertura = 5,88%.
+Para cada indicador e as escolas de referência do mesmo município histórico e ano, excluindo a escola-alvo:
 
-### QA06-D02 — Um indicador igual a 0
+- `quantidade_presentes`: respostas `1`;
+- `quantidade_validos`: respostas `0` ou `1`;
+- `quantidade_sem_dados`: respostas `None`;
+- `quantidade_escolas_referencia`: total de outras escolas do município/ano;
+- `percentual_presentes`: `100 * presentes / validos`, `None` se validos = 0;
+- `cobertura_percentual`: `100 * validos / escolas_referencia`, `None` se não houver escolas.
 
-Entrada escolar: primeiro indicador `0`, demais 16 `NULL`.
+| ID | Cenário | Resultado esperado |
+|---|---|---|
+| BE10-QA-01 | Contagens por indicador com 1/0/NULL; exclusão do alvo; filtros por município e ano | Contagens e percentuais corretos, exatamente 17 chaves |
+| BE10-QA-02 | Nenhuma escola de referência | Contagens 0; percentual de presença e cobertura NULL |
+| BE10-QA-03 | Escolas existem, mas todas têm NULL no indicador | Sem dados = total; percentual NULL; cobertura 0% |
+| BE10-QA-04 | Respostas válidas somente 0 ou somente 1 | Percentual 0% ou 100%, cobertura 100% |
+| BE10-QA-05 | Um presente em três válidos | Percentual 33,33%, sem arredondamento intermediário |
+| BE10-QA-06 | Cobertura municipal do indicador com 3 válidos de 5 | Cobertura 60%; é informativa, não aciona alerta municipal |
+| BE10-QA-07 | Município histórico da escola é NULL | Composição municipal indisponível (`None`) |
+| BE10-QA-08 | Identificador de escola referência duplicado | ValueError de integridade |
+| BE10-QA-09 | Identificador de referência ausente | ValueError de integridade |
+| BE10-QA-10 | Valor 2, -1, True, string ou float | ValueError de valor inválido |
+| BE10-QA-11 | Chave esperada ausente no registro | ValueError de integridade |
+| BE10-QA-12 | Lista esperada vazia ou com duplicatas | ValueError de contrato |
 
-Esperado: presentes = 0; válidos = 1; sem dados = 16; total = 17; índice = 0%; cobertura = 5,88%.
+## C. Serviço BE10 — histórico e orquestração
 
-### QA06-D03 — Um indicador NULL
+| ID | Cenário | Resultado esperado |
+|---|---|---|
+| BE10-QA-13 | Mesma escola em 2022 e 2024, com municípios diferentes | Consulta de pares utiliza o município histórico de cada ano |
+| BE10-QA-14 | Escola inexistente versus escola existente sem histórico | NotFoundError versus série de quatro anos sem registro |
+| BE10-QA-15 | Registro histórico com município NULL | Registro existente, sem município e sem composição municipal; não consulta pares |
+| BE10-QA-16 | Município conhecido sem pares | 17 indicadores com contagens zero e percentuais NULL |
+| BE10-QA-17 | Histórico duplicado no mesmo ano | ValueError antes das consultas de pares |
+| BE10-QA-18 | Histórico de outra escola ou ano fora de 2022–2025 | ValueError de integridade |
 
-Entrada escolar: primeiro indicador `NULL`, demais 16 `1`.
+## D. Limites da entrega QA
 
-Esperado: presentes = 16; válidos = 16; sem dados = 1; total = 17; índice = 100%; cobertura = 94,12%.
-
-### QA06-D04 — Composição escolar mista
-
-Entrada: 7 valores `1`, 5 valores `0` e 5 valores `NULL`.
-
-Esperado: presentes = 7; válidos = 12; sem dados = 5; total = 17; índice = 58,33%; cobertura = 70,59%.
-
-### QA06-D05 — Todos os indicadores NULL
-
-Entrada: 17 valores `NULL`.
-
-Esperado: presentes = 0; válidos = 0; sem dados = 17; total = 17; índice = NULL; cobertura = 0%.
-
-### QA06-D06 — Baixa cobertura sem bloqueio do cálculo
-
-Entrada: 5 valores `1`, 3 valores `0` e 9 valores `NULL`.
-
-Esperado: presentes = 5; válidos = 8; sem dados = 9; índice = 62,50%; cobertura = 47,06%. O índice permanece calculável no MVP, pois o corte mínimo sistêmico é nulo.
-
-**Alerta:** o teste do campo/estado do aviso depende do schema de composição BE09/BE10 e da confirmação do limiar. Não marcar alerta como validado usando apenas o teste de domínio.
-
-### QA06-D07 — Valor inválido
-
-Entrada contendo `2` em um indicador.
-
-Esperado no domínio atual: `ValueError`; não converter o valor inválido silenciosamente em `0`, `1` ou `NULL`.
-
-## 3. Cenário sintético de composição municipal por indicador (fixture para BE10)
-
-Município: código fictício de teste `1501402`; ano: 2024; quatro escolas no mesmo recorte.
-
-| Indicador | Valores nas quatro escolas | Presentes | Válidos | Sem dados | Percentual esperado |
-|---|---|---:|---:|---:|---:|
-| `in_agua_potavel` | `1, 0, NULL, 1` | 2 | 3 | 1 | 66,67% |
-| `in_energia_rede_publica` | `0, 0, 1, NULL` | 1 | 3 | 1 | 33,33% |
-| `in_esgoto_rede_publica` | `NULL, NULL, NULL, NULL` | 0 | 0 | 4 | NULL |
-| Demais 14 indicadores | `1, 1, 0, 0` | 2 | 4 | 0 | 50,00% |
-
-O futuro teste de contrato/serviço deverá confirmar que BE10 devolve os quatro elementos acima para cada indicador, usando os nomes e a estrutura exatos do contrato HTTP.
-
-## 4. Cenários de contrato/serviço pendentes de BE09/BE10
-
-### QA06-C01 — Metadados da composição
-
-Validar presença, tipo, nulabilidade e consistência dos metadados definidos no contrato v3. A lista exata de campos deve vir do commit `f883ca2`/schema BE09; não inventar propriedades.
-
-### QA06-C02 — Aviso de baixa cobertura
-
-Validar o estado informativo do aviso e confirmar que os resultados continuam disponíveis. O limiar deve ser confirmado pela decisão DAD06/PO antes de fixar asserções de fronteira.
-
-### QA06-C03 — Escola inexistente
-
-A escola não existe na fonte consultada. Validar o status HTTP e o corpo de erro especificados no contrato BE09/BE10.
-
-### QA06-C04 — Escola existente sem histórico no período
-
-A escola é identificada, mas não possui registros no recorte de análise. Validar a resposta de sucesso/estado vazio/metadados conforme contrato, distinguindo-a de C03.
-
-### QA06-C05 — Precisão: diferença
-
-Índice da escola = `2/3`; referência = `1/3`. Resultado público esperado: `33,33` pontos percentuais, arredondado apenas na saída.
-
-### QA06-C06 — Precisão: média municipal
-
-Índices das comparadoras = `0` e `2/3`. Média exata = `1/3`; resultado público esperado: `33,33%`, arredondado apenas na saída.
-
-### QA06-C07 — Exclusão da escola selecionada
-
-A escola selecionada aparece propositalmente na massa de referências; deve ser excluída do cálculo municipal.
-
-### QA06-C08 — Município histórico por ano
-
-Para cada registro anual da escola, o município associado àquele registro deve ser usado na consulta/composição daquele ano. Não propagar o município mais recente para anos anteriores.
-
-## 5. Observações de rastreabilidade
-
-- A matriz separa testes executáveis no snapshot atual de testes pendentes de contrato/implementação.
-- Não usar dump nem chamar a rota real para os testes unitários de domínio.
-- Testes de contrato podem validar Pydantic/OpenAPI/payload com dados sintéticos e dependências substituídas, sem banco real, quando BE09/BE10 estiverem implementadas.
-- Não tratar decisões metodológicas provisórias como homologação semântica dos 17 indicadores.
+- Os testes BE10 exercitam domínio e serviço com dados artificiais e repositório falso; não acessam warehouse.
+- O patch BE10 declara que ainda não cria rota nem envelope HTTP. Portanto, não são testes do endpoint BE09.
+- A composição individual da escola, os metadados e `cobertura_indicadores_reduzida` precisam ser validados após integração BE09/BE10.
+- A amostra manual DAD06 continua sendo responsabilidade da equipe de Dados. Estes testes sintéticos não a substituem.

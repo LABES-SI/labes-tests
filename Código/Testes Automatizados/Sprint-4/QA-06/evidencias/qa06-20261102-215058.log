@@ -1,0 +1,44 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.12.2, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\karen\Downloads\labes-api-sprint4-git\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\karen\labes-tests
+plugins: anyio-4.13.0, asyncio-1.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 33 items
+
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_agregacao_conta_presentes_validos_nulos_e_filtra_alvo_ano_municipio PASSED [  3%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_sem_escolas_de_referencia_retorna_contagens_zero_e_percentuais_nulos PASSED [  6%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_referencias_existentes_com_todos_os_valores_nulos_nao_viram_zero PASSED [  9%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_zero_e_cem_por_cento_sao_percentuais_validos PASSED [ 12%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_percentual_e_cobertura_sao_arredondados_apenas_na_saida PASSED [ 15%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_cobertura_municipal_por_indicador_exatamente_60_por_cento PASSED [ 18%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_municipio_historico_ausente_deixa_composicao_indisponivel PASSED [ 21%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_duplicidade_de_escola_referencia_e_rejeitada PASSED [ 24%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_escola_referencia_sem_identificador_e_rejeitada PASSED [ 27%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_valores_fora_de_zero_um_e_null_sao_rejeitados[2] PASSED [ 30%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_valores_fora_de_zero_um_e_null_sao_rejeitados[-1] PASSED [ 33%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_valores_fora_de_zero_um_e_null_sao_rejeitados[True] PASSED [ 36%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_valores_fora_de_zero_um_e_null_sao_rejeitados[1] PASSED [ 39%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_valores_fora_de_zero_um_e_null_sao_rejeitados[1.0] PASSED [ 42%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_chave_de_indicador_ausente_no_registro_e_rejeitada PASSED [ 45%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_agregacao_municipal.py::test_lista_de_indicadores_vazia_ou_com_duplicatas_e_rejeitada PASSED [ 48%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_servico_agregacao.py::test_servico_usa_municipio_historico_de_cada_ano_e_preserva_lacunas PASSED [ 51%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_servico_agregacao.py::test_escola_inexistente_e_diferente_de_escola_sem_historico PASSED [ 54%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_servico_agregacao.py::test_registro_com_municipio_historico_nulo_nao_consulta_pares PASSED [ 57%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_servico_agregacao.py::test_municipio_conhecido_sem_pares_retorna_17_indicadores_com_contagens_zero PASSED [ 60%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_servico_agregacao.py::test_historico_duplicado_e_rejeitado_antes_da_consulta_de_pares PASSED [ 63%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_be10_servico_agregacao.py::test_historico_de_outra_escola_ou_ano_fora_do_recorte_e_rejeitado PASSED [ 66%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_composicao_conta_presentes_validos_sem_dados_e_percentual PASSED [ 69%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_composicao_todos_nulos_nao_retorna_indice_zero PASSED [ 72%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_indice_parcial_com_baixa_cobertura_nao_e_bloqueado_no_mvp PASSED [ 75%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_valor_fora_do_contrato_e_rejeitado PASSED [ 78%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_um_indicador_sim_e_demais_nulos PASSED [ 81%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_um_indicador_nao_e_demais_nulos PASSED [ 84%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_um_indicador_nulo_e_demais_sim PASSED [ 87%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_cobertura_exatamente_60_por_cento_sem_aviso_esperado PASSED [ 90%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_denominador_zero_retorna_percentual_nulo_sem_divisao_por_zero PASSED [ 93%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_cobertura_40_por_cento_mantem_calculo_e_prepara_alerta PASSED [ 96%]
+C├│digo/Testes Automatizados/Sprint-4/QA-06/tests/test_qa06_indice_preparatorio.py::test_cobertura_80_por_cento_mantem_calculo_sem_alerta_esperado PASSED [100%]
+
+- generated xml file: C:\Users\karen\labes-tests\C├│digo\Testes Automatizados\Sprint-4\QA-06\evidencias\qa06-20261102-215058.xml -
+============================= 33 passed in 0.71s ==============================

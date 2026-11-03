@@ -1,0 +1,88 @@
+{
+  "fixture_id": "QA06-DAD06-COBERTURA-2026-01",
+  "descricao": "Casos sintéticos solicitados por Backend/Dados para validar fronteira de 60%, denominador zero e coberturas de 40% e 80%.",
+  "total_indicadores_sinteticos": 5,
+  "observacao": "Conjunto reduzido de cinco indicadores apenas para reproduzir os exemplos de fronteira. Não altera o contrato geral do MVP de 17 indicadores.",
+  "casos": {
+    "QA06-D08": {
+      "nome": "Cobertura exatamente em 60%",
+      "valores": [
+        1,
+        1,
+        0,
+        null,
+        null
+      ],
+      "esperado": {
+        "presentes": 2,
+        "validos": 3,
+        "sem_dados": 2,
+        "total": 5,
+        "percentual": 66.67,
+        "cobertura_percentual": 60.0
+      },
+      "alerta_esperado": "nao_exibir",
+      "status_validacao_alerta": "PENDENTE_BE09_BE10"
+    },
+    "QA06-D09": {
+      "nome": "Denominador zero",
+      "valores": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "esperado": {
+        "presentes": 0,
+        "validos": 0,
+        "sem_dados": 5,
+        "total": 5,
+        "percentual": null,
+        "cobertura_percentual": 0.0
+      },
+      "alerta_esperado": "nao_definido_no_pedido",
+      "status_validacao_alerta": "NAO_APLICAVEL_ATE_CONTRATO"
+    },
+    "QA06-D10": {
+      "nome": "Cobertura de 40%",
+      "valores": [
+        1,
+        0,
+        null,
+        null,
+        null
+      ],
+      "esperado": {
+        "presentes": 1,
+        "validos": 2,
+        "sem_dados": 3,
+        "total": 5,
+        "percentual": 50.0,
+        "cobertura_percentual": 40.0
+      },
+      "alerta_esperado": "exibir",
+      "status_validacao_alerta": "PENDENTE_BE09_BE10"
+    },
+    "QA06-D11": {
+      "nome": "Cobertura de 80%",
+      "valores": [
+        1,
+        1,
+        1,
+        0,
+        null
+      ],
+      "esperado": {
+        "presentes": 3,
+        "validos": 4,
+        "sem_dados": 1,
+        "total": 5,
+        "percentual": 75.0,
+        "cobertura_percentual": 80.0
+      },
+      "alerta_esperado": "nao_exibir",
+      "status_validacao_alerta": "PENDENTE_BE09_BE10"
+    }
+  }
+}
