@@ -1,0 +1,203 @@
+{
+  "fixture_id": "QA06-FX-MUNICIPIO-2024-01",
+  "description": "Fixture sintética para composição municipal por indicador; quatro escolas no mesmo município e ano.",
+  "municipio": {
+    "co_municipio": 1501402,
+    "no_municipio": "Município de teste"
+  },
+  "ano": 2024,
+  "registros": [
+    {
+      "co_entidade": 15000001,
+      "indicadores": {
+        "in_agua_potavel": 1,
+        "in_energia_rede_publica": 0,
+        "in_esgoto_rede_publica": null,
+        "in_lixo_servico_coleta": 1,
+        "in_banheiro": 1,
+        "in_banheiro_pne": 1,
+        "in_biblioteca": 1,
+        "in_sala_leitura": 1,
+        "in_laboratorio_ciencias": 1,
+        "in_laboratorio_informatica": 1,
+        "in_sala_multiuso": 1,
+        "in_sala_atendimento_especial": 1,
+        "in_cozinha": 1,
+        "in_refeitorio": 1,
+        "in_quadra_esportes": 1,
+        "in_patio_coberto": 1,
+        "in_auditorio": 1
+      }
+    },
+    {
+      "co_entidade": 15000002,
+      "indicadores": {
+        "in_agua_potavel": 0,
+        "in_energia_rede_publica": 0,
+        "in_esgoto_rede_publica": null,
+        "in_lixo_servico_coleta": 1,
+        "in_banheiro": 1,
+        "in_banheiro_pne": 1,
+        "in_biblioteca": 1,
+        "in_sala_leitura": 1,
+        "in_laboratorio_ciencias": 1,
+        "in_laboratorio_informatica": 1,
+        "in_sala_multiuso": 1,
+        "in_sala_atendimento_especial": 1,
+        "in_cozinha": 1,
+        "in_refeitorio": 1,
+        "in_quadra_esportes": 1,
+        "in_patio_coberto": 1,
+        "in_auditorio": 1
+      }
+    },
+    {
+      "co_entidade": 15000003,
+      "indicadores": {
+        "in_agua_potavel": null,
+        "in_energia_rede_publica": 1,
+        "in_esgoto_rede_publica": null,
+        "in_lixo_servico_coleta": 0,
+        "in_banheiro": 0,
+        "in_banheiro_pne": 0,
+        "in_biblioteca": 0,
+        "in_sala_leitura": 0,
+        "in_laboratorio_ciencias": 0,
+        "in_laboratorio_informatica": 0,
+        "in_sala_multiuso": 0,
+        "in_sala_atendimento_especial": 0,
+        "in_cozinha": 0,
+        "in_refeitorio": 0,
+        "in_quadra_esportes": 0,
+        "in_patio_coberto": 0,
+        "in_auditorio": 0
+      }
+    },
+    {
+      "co_entidade": 15000004,
+      "indicadores": {
+        "in_agua_potavel": 1,
+        "in_energia_rede_publica": null,
+        "in_esgoto_rede_publica": null,
+        "in_lixo_servico_coleta": 0,
+        "in_banheiro": 0,
+        "in_banheiro_pne": 0,
+        "in_biblioteca": 0,
+        "in_sala_leitura": 0,
+        "in_laboratorio_ciencias": 0,
+        "in_laboratorio_informatica": 0,
+        "in_sala_multiuso": 0,
+        "in_sala_atendimento_especial": 0,
+        "in_cozinha": 0,
+        "in_refeitorio": 0,
+        "in_quadra_esportes": 0,
+        "in_patio_coberto": 0,
+        "in_auditorio": 0
+      }
+    }
+  ],
+  "resultado_esperado_por_indicador": {
+    "in_agua_potavel": {
+      "presentes": 2,
+      "validos": 3,
+      "sem_dados": 1,
+      "percentual": 66.67
+    },
+    "in_energia_rede_publica": {
+      "presentes": 1,
+      "validos": 3,
+      "sem_dados": 1,
+      "percentual": 33.33
+    },
+    "in_esgoto_rede_publica": {
+      "presentes": 0,
+      "validos": 0,
+      "sem_dados": 4,
+      "percentual": null
+    },
+    "in_lixo_servico_coleta": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_banheiro": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_banheiro_pne": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_biblioteca": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_sala_leitura": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_laboratorio_ciencias": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_laboratorio_informatica": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_sala_multiuso": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_sala_atendimento_especial": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_cozinha": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_refeitorio": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_quadra_esportes": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_patio_coberto": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    },
+    "in_auditorio": {
+      "presentes": 2,
+      "validos": 4,
+      "sem_dados": 0,
+      "percentual": 50.0
+    }
+  }
+}
