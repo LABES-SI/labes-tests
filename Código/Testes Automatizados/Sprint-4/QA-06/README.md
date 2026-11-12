@@ -47,3 +47,58 @@ A cobertura municipal por indicador é informativa e não recebe automaticamente
 ## Execução
 
 Veja `INSTRUCOES.md` na raiz do pacote recebido e `evidencias/README-evidencias-QA06.md` para o registro do resultado e a geração dos artefatos de execução.
+
+
+## Testes de integração HTTP — Comparação escola e município
+
+### Objetivo
+
+Validar o endpoint de comparação entre a infraestrutura de uma escola e a média municipal, por meio de requisições HTTP à API executada localmente e conectada ao banco de dados PostgreSQL populado.
+
+**Endpoint testado:**
+
+`GET /infraestrutura/analise-temporal/escolas/{co_entidade}/comparacao-municipio`
+
+**Escola utilizada:**
+- Código INEP: `15010201`
+- Nome: E M E F PRINCESA ISABEL
+- Município: Porto de Moz
+- Código do município: `1505908`
+
+### Cenários automatizados
+
+| ID | Cenário | Resultado |
+|---|---|---|
+| QA06-HTTP-01 | Contrato da resposta e identificação da escola e município | Aprovado |
+| QA06-HTTP-02 | Série histórica de 2022 a 2025 | Aprovado |
+| QA06-HTTP-03 | Indicadores e índice de infraestrutura da escola | Aprovado |
+| QA06-HTTP-04 | Comparação com a média municipal | Aprovado |
+| QA06-HTTP-05 | Metodologia e composição municipal | Aprovado |
+| QA06-HTTP-06 | Retorno HTTP 422 para código INEP inválido | Aprovado |
+| QA06-HTTP-07 | Retorno HTTP 404 para escola inexistente | Aprovado |
+
+### Resultado da execução
+
+- Data: 12/11/2026
+- Python: 3.12.2
+- Pytest: 9.1.1
+- Total de testes: 7
+- Aprovados: 7
+- Reprovados: 0
+- Duração registrada: 0,19 segundo
+- Resultado: 7/7 cenários aprovados (100% dos testes HTTP executados).
+
+### Evidências
+
+Os seguintes arquivos foram gerados na pasta `evidencias/`:
+
+- `qa06-http-20261112-113204.xml`: relatório JUnit.
+- `qa06-http-20261112-113204.log`: registro da execução.
+
+### Observações
+
+Os testes foram executados contra a API local, utilizando dados reais disponíveis no banco de dados restaurado para o ambiente de validação.
+
+Os resultados confirmam o comportamento dos cenários cobertos para a escola selecionada. A execução não representa, isoladamente, homologação integral da funcionalidade ou validação de todas as combinações possíveis de escolas e municípios.
+
+A metodologia da funcionalidade permanece identificada pela API como provisória e não homologada.

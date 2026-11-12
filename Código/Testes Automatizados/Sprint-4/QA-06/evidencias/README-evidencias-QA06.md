@@ -1,109 +1,144 @@
-# Documento de evidências — QA06 | Sprint 4 | SIE V2
+# Evidências de Testes — QA-06 | Sprint 4
 
 ## 1. Identificação
 
-- **Card:** QA06 — Automatizar testes do contrato e da composição.
-- **Repositório de testes:** `LABES-SI/labes-tests`.
-- **Branch de trabalho:** `test/qa06-sprint4-composicao` (confirmar branch local antes do push).
-- **PR de referência:** [PR #3 — QA06](https://github.com/LABES-SI/labes-tests/pull/3). A PR foi aberta para a contribuição inicial; após o commit desta atualização, conferir se a PR mostra os novos arquivos e os 33 cenários.
-- **Backend exercitado:** `rbecamend/labes-api`, implementação BE10/PR #15.
-- **Data da execução informada:** 02/11/2026.
-- **Resultado informado pela QA:** `33 passed`.
-- **Duração / código de saída / SHA exato do backend:** não foram preservados na conversa. Preencher a partir do terminal e do `git rev-parse HEAD` do backend usado.
+- **Projeto:** LABES — Sistema de Indicadores Educacionais (SIE)
+- **Sprint:** 4
+- **Atividade:** QA-06 — Testes de composição e comparação municipal
+- **Repositório:** `LABES-SI/labes-tests`
+- **Branch:** `test/qa06-sprint4-composicao`
+- **Pull Request dos testes:** [PR #3](https://github.com/LABES-SI/labes-tests/pull/3)
+- **Pull Request relacionado ao backend:** BE10 — PR #15
 
-## 2. Escopo da suíte executada
+## 2. Resultado consolidado
 
-| Arquivo | Casos | Resultado informado |
+Foram executados **40 cenários de teste distintos**, distribuídos em duas etapas de validação.
+
+| Etapa | Quantidade | Aprovados | Falhas | Erros |
+|---|---:|---:|---:|---:|
+| Testes preparatórios, agregação municipal e serviço BE10 | 33 | 33 | 0 | 0 |
+| Testes de integração HTTP | 7 | 7 | 0 | 0 |
+| **Total** | **40** | **40** | **0** | **0** |
+
+Todos os cenários executados foram aprovados, sem falhas, erros ou testes ignorados nos relatórios principais.
+
+## 3. Primeira execução — testes preparatórios e BE10
+
+**Data:** 02/11/2026  
+**Python:** 3.12.2  
+**Pytest:** 9.1.1  
+**Duração:** 0,71 segundo
+
+### Resultado
+
+- Total: 33 testes
+- Aprovados: 33
+- Falhas: 0
+- Erros: 0
+- Ignorados: 0
+
+### Distribuição dos testes
+
+| Arquivo | Quantidade | Objetivo |
 |---|---:|---|
-| `tests/test_qa06_indice_preparatorio.py` | 11 | Aprovados |
-| `tests/test_qa06_be10_agregacao_municipal.py` | 16 | Aprovados |
-| `tests/test_qa06_be10_servico_agregacao.py` | 6 | Aprovados |
-| **Total** | **33** | **33 aprovados** |
+| `test_qa06_indice_preparatorio.py` | 11 | Validar os cenários preparatórios do índice e da cobertura. |
+| `test_qa06_be10_agregacao_municipal.py` | 16 | Validar a agregação municipal e as regras de composição. |
+| `test_qa06_be10_servico_agregacao.py` | 6 | Validar o comportamento do serviço de agregação. |
+| **Total** | **33** | |
 
-A contagem de 16 testes de domínio inclui variações parametrizadas de valores inválidos. Os 33 casos foram executados pela QA no ambiente local; esta documentação registra o resultado comunicado, sem inventar duração ou identificador de execução.
+### Evidências
 
-## 3. Principais cenários cobertos
+- `qa06-20261102-215058.xml` — relatório JUnit da execução.
+- `qa06-20261102-215058.log` — registro textual da execução.
 
-### Índice individual e cobertura
+O log registra a coleta e aprovação dos 33 testes, com resultado final de `33 passed in 0.71s`.
 
-- Preservação semântica de `1`, `0` e `NULL`.
-- Exclusão de `NULL` do denominador válido.
-- Índice indisponível quando não há respostas válidas.
-- Casos sintéticos de cobertura abaixo, exatamente no e acima do limiar, além de denominador zero.
-- Baixa cobertura não bloqueia o cálculo.
+## 4. Segunda execução — integração HTTP
 
-### Agregação municipal por indicador
+**Data:** 12/11/2026  
+**Python:** 3.12.2  
+**Pytest:** 9.1.1  
+**Duração:** 0,19 segundo
 
-- Quantidades de presentes, válidos, sem dados e escolas de referência.
-- Percentual de presentes e cobertura por indicador.
-- Nenhuma escola de referência e indicador sem valores válidos.
-- Exclusão da escola selecionada.
-- Precisão decimal e invariantes de contagem.
-- Rejeição de identificadores duplicados/ausentes, valores inválidos e chaves ausentes.
+### Resultado
 
-### Serviço BE10
+- Total: 7 testes
+- Aprovados: 7
+- Falhas: 0
+- Erros: 0
+- Ignorados: 0
 
-- Consulta de referência usando o município histórico de cada ano.
-- Distinção entre escola inexistente e escola existente sem histórico.
-- Histórico com município nulo.
-- Município conhecido sem pares de referência.
-- Rejeição de histórico duplicado ou inconsistente.
+### Endpoint validado
 
-## 4. Evidências geradas
+`GET /infraestrutura/analise-temporal/escolas/{co_entidade}/comparacao-municipio`
 
-Para completar o registro auditável, executar novamente a suíte com o comando abaixo. Ele salvará o relatório JUnit e a saída do terminal dentro desta pasta:
+Foi utilizada a escola:
 
-```powershell
-$repo = "C:/Users/karen/labes-tests"
-Set-Location $repo
-$qa = "Código\Testes Automatizados\Sprint-4\QA-06"
-$evid = Join-Path $qa "evidencias"
-New-Item -ItemType Directory -Path $evid -Force | Out-Null
-$stamp = Get-Date -Format "yyyyMMdd-HHmmss"
-$xml = Join-Path $evid "qa06-$stamp.xml"
-$log = Join-Path $evid "qa06-$stamp.log"
+- **Código INEP:** `15010201`
+- **Nome:** E M E F PRINCESA ISABEL
+- **Município:** Porto de Moz
+- **Código do município:** `1505908`
 
-$saida = & uv run --project "$env:LABES_API_ROOT" python -m pytest `
-  (Join-Path $qa "tests") -v "--junitxml=$xml" 2>&1
-$codigoSaida = $LASTEXITCODE
-$saida | ForEach-Object { "$_" } | Set-Content -LiteralPath $log -Encoding utf8
-$saida
-Write-Host "Código de saída: $codigoSaida"
-```
+### Cenários cobertos
 
-Preencher após essa execução:
+1. Validação do contrato da resposta, identificação da escola e município.
+2. Validação da série histórica de 2022 a 2025.
+3. Validação dos indicadores e do índice da escola.
+4. Validação da comparação entre o resultado da escola e a média municipal.
+5. Validação da metodologia e da composição municipal.
+6. Validação da resposta HTTP 422 para código INEP inválido.
+7. Validação da resposta HTTP 404 para escola inexistente.
 
-- Backend SHA: `git -C "$env:LABES_API_ROOT" rev-parse HEAD`
-- Backend branch: `git -C "$env:LABES_API_ROOT" branch --show-current`
-- Data/hora e duração: copiar do resumo do pytest.
-- Arquivo XML: nome gerado em `evidencias`.
-- Arquivo de log: nome gerado em `evidencias`.
-- Código de saída esperado: `0`.
+### Evidências
 
-**Não substituir a execução informada `33 passed` por uma duração ou SHA estimados.** Os dados acima devem vir de uma execução registrada.
+- `qa06-http-20261112-113204.xml` — relatório JUnit da execução HTTP.
+- `qa06-http-20261112-113204.log` — registro textual da execução.
 
-## 5. Limitações e pendências conhecidas
+O log registra o resultado final de `7 passed in 0.19s`.
 
-A suíte usa dados artificiais e repositório falso para a camada de serviço. A execução aprovada comprova as regras cobertas nos testes, mas não é um aceite ponta a ponta.
+A execução foi realizada contra a API local, utilizando banco PostgreSQL populado.
 
-Permanecem pendentes, quando a implementação integrada estiver disponível:
+## 5. Arquivos de evidência
 
-1. Testar a resposta HTTP v3 da BE09 contra o contrato versionado.
-2. Conferir `composicao_escola`, `composicao_municipal`, `municipio_referencia` e `registro_historico_disponivel` no payload real.
-3. Conferir `cobertura_indicadores_reduzida`, inclusive abaixo de 60%, exatamente 60% e acima de 60%, no payload HTTP.
-4. Conferir metadados e avisos metodológicos.
-5. Conferir os corpos reais de erro HTTP previstos no contrato.
-6. Repetir os cenários relevantes com ambiente/warehouse integrado quando disponibilizado.
+| Arquivo | Descrição |
+|---|---|
+| `qa06-20261102-215058.xml` | Relatório JUnit dos 33 testes preparatórios e BE10. |
+| `qa06-20261102-215058.log` | Log dos 33 testes preparatórios e BE10. |
+| `qa06-http-20261112-113204.xml` | Relatório JUnit dos 7 testes de integração HTTP. |
+| `qa06-http-20261112-113204.log` | Log dos 7 testes de integração HTTP. |
+| `README.md` | Índice das evidências desta pasta. |
+| `README-evidencias-QA06.md` | Documentação detalhada dos resultados e limitações. |
 
-A validação da amostra manual e dos denominadores empíricos DAD06 permanece com a equipe de Dados; os fixtures sintéticos não substituem essa atividade.
+### Registros de execuções anteriores
 
-## 6. Histórico de publicação no Git
+Os arquivos `qa06-junit.xml` e `execucao-qa06.txt` correspondem a uma execução preparatória anterior, com 7 testes.
 
-- Branch prevista: `test/qa06-sprint4-composicao`.
-- PR relacionado: [LABES-SI/labes-tests#3](https://github.com/LABES-SI/labes-tests/pull/3).
-- Commit inicial citado na evidência anterior: `88a5c4b` — `test: add preparatory QA06 index tests`.
-- **Commit de atualização dos 33 testes:** preencher depois do push.
+Esses registros foram mantidos como histórico, mas **não são somados novamente ao resultado consolidado de 40 testes**, pois seus cenários já estão contemplados na execução posterior de 33 testes.
 
-## 7. Conclusão
+## 6. Limitações e pendências identificadas
 
-A etapa automatizada de domínio e serviço BE10 da QA06 foi executada com **33 testes aprovados**, conforme resultado informado pela QA. A atividade deve permanecer em andamento/revisão até a validação do contrato HTTP v3 e das integrações previstas no escopo do card.
+Apesar da aprovação dos 40 cenários executados, algumas validações permanecem fora do escopo efetivamente comprovado:
+
+1. **Amostra manual DAD06:** a validação manual da amostra permanece sob responsabilidade da equipe de Dados.
+2. **Códigos HTTP 500 e 503:** os cenários de erro interno e indisponibilidade do serviço não foram contemplados nesta execução HTTP.
+3. **Base integrada completa:** a validação foi realizada com os dados disponíveis no ambiente utilizado, não representando uma homologação de toda a base histórica integrada.
+4. **Metodologia:** a metodologia utilizada permanece provisória, sem aprovação definitiva registrada.
+
+A execução HTTP utilizou uma escola específica e sua série histórica de 2022 a 2025. Portanto, os resultados comprovam os cenários testados, mas não devem ser interpretados como validação exaustiva de todas as escolas e municípios.
+
+## 7. Publicação e rastreabilidade
+
+- **Repositório de testes:** `LABES-SI/labes-tests`
+- **Pull Request dos testes:** [PR #3](https://github.com/LABES-SI/labes-tests/pull/3)
+- **Branch:** `test/qa06-sprint4-composicao`
+- **Referência do backend:** BE10 — PR #15
+
+O hash exato do commit do backend utilizado na execução de 33 testes não foi registrado nas evidências disponíveis. Por esse motivo, não é atribuído um hash específico a essa execução.
+
+## 8. Conclusão
+
+A automação QA-06 possui **40 cenários distintos aprovados**, distribuídos entre testes preparatórios, testes de agregação municipal, testes de serviço e testes de integração HTTP.
+
+Os relatórios JUnit e os logs correspondentes comprovam a aprovação de todos os cenários executados, sem falhas ou erros.
+
+Assim, a entrega de automação e das evidências dos cenários implementados pode ser considerada concluída. As limitações e validações externas descritas neste documento devem permanecer registradas para acompanhamento pela equipe responsável, sem serem confundidas com falhas nos testes executados.
